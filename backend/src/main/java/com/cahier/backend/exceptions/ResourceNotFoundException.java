@@ -1,2 +1,4 @@
-package com.cahier.backend.exceptions;public class ResourceNotFoundException {
+package com.cahier.backend.exceptions;
+
+public class ResourceNotFoundException {
 }

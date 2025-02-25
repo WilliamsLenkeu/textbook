@@ -1,2 +1,4 @@
-package com.cahier.backend.utils;public class PasswordEncoderUtil {
+package com.cahier.backend.utils;
+
+public class PasswordEncoderUtil {
 }
