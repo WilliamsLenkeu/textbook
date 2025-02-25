@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class SignatureController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SignatureDTO> getSignatureById(@PathVariable Long id) {
+    public ResponseEntity<SignatureDTO> getSignatureById(@PathVariable String id) {  // Utilisation de String pour l'ID
         Optional<Signature> signature = signatureService.getSignatureById(id);
         return signature.map(s -> ResponseEntity.ok(new SignatureDTO(s.getId(), s.getCodeSignature())))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -46,7 +47,7 @@ public class SignatureController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSignature(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSignature(@PathVariable String id) {  // Utilisation de String pour l'ID
         signatureService.deleteSignature(id);
         return ResponseEntity.noContent().build();
     }

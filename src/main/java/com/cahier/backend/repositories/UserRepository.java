@@ -1,17 +1,16 @@
 package com.cahier.backend.repositories;
 
-import com.cahier.backend.entities.Admin;
-import com.cahier.backend.entities.Delegue;
-import com.cahier.backend.entities.Enseignant;
 import com.cahier.backend.entities.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-// Repository pour User (superclass des autres rôles)
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByMail(String mail);
-    boolean existsByMail(String mail_);
+public interface UserRepository extends MongoRepository<User, String> {
+    // Méthodes de recherche par email et par numéro de téléphone
+    Optional<User> findByMail(String mail);
+    Optional<User> findByNumeroTelephone(String numeroTelephone);
+    boolean existsByMail(String mail);
     boolean existsByNumeroTelephone(String numeroTelephone);
 }
-

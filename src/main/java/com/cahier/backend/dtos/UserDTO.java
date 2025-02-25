@@ -20,6 +20,5 @@ public record UserDTO(
         String password,
 
         @NotNull(message = "Le rôle est obligatoire")
-        Role role
+        Role rôle
 ) {}
-

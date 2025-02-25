@@ -1,19 +1,18 @@
 package com.cahier.backend.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.validation.constraints.*;
 
-@Entity
+@Document(collection = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // Utilisation de String pour l'ID
 
     @NotBlank(message = "Le nom est obligatoire")
     private String nom;
@@ -23,17 +22,11 @@ public class User {
     private String mail;
 
     @NotBlank(message = "Le numéro de téléphone est obligatoire")
-    @Pattern(
-            regexp = "^\\+2376[0-9]{8}$",
-            message = "Numéro de téléphone invalide. Format attendu : +2376XXXXXXXX"
-    )
     private String numeroTelephone;
 
     @NotBlank(message = "Le mot de passe est obligatoire")
-    @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String password;
 
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "Le rôle est obligatoire")
     private Role role;
 }

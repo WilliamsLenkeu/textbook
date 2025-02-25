@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,17 +25,17 @@ public class UEController {
         List<UE> ues = ueService.getAllUEs();
         return ues.stream()
                 .map(ue -> new UEDTO(ue.getId(), ue.getTitre(),
-                        ue.getEnseignant() != null ? ue.getEnseignant().getId() : null,
-                        ue.getClasse() != null ? ue.getClasse().getId() : null))
+                        ue.getEnseignantId(),  // Récupération de l'ID de l'enseignant
+                        ue.getClasseId()))  // Récupération de l'ID de la classe
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UEDTO> getUEById(@PathVariable Long id) {
+    public ResponseEntity<UEDTO> getUEById(@PathVariable String id) {  // Utilisation de String pour l'ID
         Optional<UE> ue = ueService.getUEById(id);
         return ue.map(u -> ResponseEntity.ok(new UEDTO(u.getId(), u.getTitre(),
-                        u.getEnseignant() != null ? u.getEnseignant().getId() : null,
-                        u.getClasse() != null ? u.getClasse().getId() : null)))
+                        u.getEnseignantId(),  // Récupération de l'ID de l'enseignant
+                        u.getClasseId())))  // Récupération de l'ID de la classe
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -43,18 +44,19 @@ public class UEController {
         // Conversion du DTO en entité UE avant de sauvegarder
         UE ue = new UE();
         ue.setTitre(ueDTO.getTitre());
+        ue.setEnseignantId(ueDTO.getEnseignantId());  // Assignation de l'ID de l'enseignant
+        ue.setClasseId(ueDTO.getClasseId());  // Assignation de l'ID de la classe
 
-        // Aucune conversion explicite pour `enseignant` et `classe` n'est effectuée ici
-        // Assurez-vous de gérer les entités `Enseignant` et `Classe` dans la logique de service
+        // Sauvegarde et retour du DTO créé
         UE savedUE = ueService.saveUE(ue);
 
         return ResponseEntity.ok(new UEDTO(savedUE.getId(), savedUE.getTitre(),
-                savedUE.getEnseignant() != null ? savedUE.getEnseignant().getId() : null,
-                savedUE.getClasse() != null ? savedUE.getClasse().getId() : null));
+                savedUE.getEnseignantId(),  // Retour de l'ID de l'enseignant
+                savedUE.getClasseId()));  // Retour de l'ID de la classe
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUE(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUE(@PathVariable String id) {  // Utilisation de String pour l'ID
         ueService.deleteUE(id);
         return ResponseEntity.noContent().build();
     }

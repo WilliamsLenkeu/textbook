@@ -2,6 +2,7 @@ package com.cahier.backend.controllers;
 
 import com.cahier.backend.entities.User;
 import com.cahier.backend.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +16,27 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             String token = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
             return ResponseEntity.ok(token);
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Erreur : " + e.getMessage());
+            return ResponseEntity.badRequest().body("Erreur lors de l'authentification : " + e.getMessage());
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@Valid @RequestBody User user) {
         try {
             User registeredUser = authService.register(user);
             return ResponseEntity.ok(registeredUser);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(400).body("Erreur : L'email ou le numéro de téléphone est déjà utilisé.");
+            return ResponseEntity.badRequest().body("Erreur : L'email ou le numéro de téléphone est déjà utilisé.");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erreur interne du serveur : " + e.getMessage());
+            return ResponseEntity.internalServerError().body("Erreur interne du serveur : " + e.getMessage());
         }
     }
 
-    // Classe interne pour la requête de connexion
     private static class LoginRequest {
         private String email;
         private String password;

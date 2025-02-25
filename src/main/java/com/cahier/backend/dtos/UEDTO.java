@@ -7,8 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UEDTO {
-    private Long id;
+    private String id;  // Utilisation de String pour l'ID
+
     private String titre;
-    private Long enseignantId;
-    private Long classeId;
+
+    private String enseignantId;  // Utilisation de String pour l'ID de l'enseignant
+
+    private String classeId;  // Utilisation de String pour l'ID de la classe
 }

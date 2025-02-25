@@ -1,28 +1,24 @@
 package com.cahier.backend.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.validation.constraints.*;
 
+@Document(collection = "ues")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class UE {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // Utilisation de String pour l'ID
 
     @NotNull(message = "Le titre de l'UE est obligatoire")
     @Size(min = 3, max = 100, message = "Le titre de l'UE doit avoir entre 3 et 100 caractères")
     private String titre;
 
-    @ManyToOne
-    @JoinColumn(name = "id_enseignant")
-    private Enseignant enseignant;
+    private String enseignantId;  // Utilisation de String pour l'ID de l'enseignant
 
-    @ManyToOne
-    @JoinColumn(name = "id_classe")
-    private Classe classe;
+    private String classeId;  // Utilisation de String pour l'ID de la classe
 }

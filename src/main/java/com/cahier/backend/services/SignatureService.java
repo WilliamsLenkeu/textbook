@@ -16,7 +16,7 @@ public class SignatureService {
         return signatureRepository.findAll();
     }
 
-    public Optional<Signature> getSignatureById(Long id) {
+    public Optional<Signature> getSignatureById(String id) {  // Utilisation de String pour l'ID
         return signatureRepository.findById(id);
     }
 
@@ -24,8 +24,7 @@ public class SignatureService {
         return signatureRepository.save(signature);
     }
 
-    public void deleteSignature(Long id) {
+    public void deleteSignature(String id) {  // Utilisation de String pour l'ID
         signatureRepository.deleteById(id);
     }
 }
-

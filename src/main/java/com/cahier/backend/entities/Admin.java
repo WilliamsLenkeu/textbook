@@ -1,8 +1,6 @@
 package com.cahier.backend.entities;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@DiscriminatorValue("ADMIN")
+@Document(collection = "users")
 public class Admin extends User {}

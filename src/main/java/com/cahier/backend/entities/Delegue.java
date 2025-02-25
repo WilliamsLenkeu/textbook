@@ -1,7 +1,6 @@
 package com.cahier.backend.entities;
 
-import jakarta.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@DiscriminatorValue("DELEGUE")
+@Document(collection = "users")
 public class Delegue extends User {}

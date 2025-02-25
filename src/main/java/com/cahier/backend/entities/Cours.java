@@ -1,22 +1,20 @@
 package com.cahier.backend.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
-
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
+@Document(collection = "cours")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cours")
 public class Cours {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // Utilisation de String pour l'ID
 
     @NotNull(message = "La date du cours est obligatoire")
     private LocalDate date;
@@ -28,22 +26,14 @@ public class Cours {
     private LocalTime heureFin;
 
     @NotNull(message = "L'unité d'enseignement est obligatoire")
-    @ManyToOne
-    @JoinColumn(name = "id_ue", nullable = false)
-    private UE ue;
+    private String ueId;
 
     @NotNull(message = "L'enseignant est obligatoire")
-    @ManyToOne
-    @JoinColumn(name = "id_enseignant", nullable = false)
-    private User enseignant;
+    private String enseignantId;
 
     @NotNull(message = "Le délégué est obligatoire")
-    @ManyToOne
-    @JoinColumn(name = "id_délégué", nullable = false)
-    private User delegue;
+    private String delegueId;
 
     @NotNull(message = "La classe est obligatoire")
-    @ManyToOne
-    @JoinColumn(name = "id_classe", nullable = false)
-    private Classe classe;
+    private String classeId;
 }

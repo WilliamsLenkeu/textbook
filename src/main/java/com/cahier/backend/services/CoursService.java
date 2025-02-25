@@ -16,7 +16,7 @@ public class CoursService {
         return coursRepository.findAll();
     }
 
-    public Optional<Cours> getCoursById(Long id) {
+    public Optional<Cours> getCoursById(String id) {  // Utilisation de String pour l'ID
         return coursRepository.findById(id);
     }
 
@@ -24,7 +24,7 @@ public class CoursService {
         return coursRepository.save(cours);
     }
 
-    public void deleteCours(Long id) {
+    public void deleteCours(String id) {  // Utilisation de String pour l'ID
         coursRepository.deleteById(id);
     }
 }

@@ -1,9 +1,8 @@
 package com.cahier.backend.repositories;
 
 import com.cahier.backend.entities.Delegue;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-// Repository pour Délégué
 @Repository
-public interface DelegueRepository extends JpaRepository<Delegue, Long> {}
+public interface DelegueRepository extends MongoRepository<Delegue, String> {}

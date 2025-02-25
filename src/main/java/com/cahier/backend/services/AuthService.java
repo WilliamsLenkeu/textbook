@@ -28,7 +28,6 @@ public class AuthService {
     }
 
     public User register(User user) {
-        // Vérifier si l'email ou le numéro de téléphone existe déjà
         if (userRepository.existsByMail(user.getMail())) {
             throw new DataIntegrityViolationException("Cet email est déjà utilisé.");
         }
@@ -36,7 +35,6 @@ public class AuthService {
             throw new DataIntegrityViolationException("Ce numéro de téléphone est déjà utilisé.");
         }
 
-        // Encoder le mot de passe avant de sauvegarder
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
