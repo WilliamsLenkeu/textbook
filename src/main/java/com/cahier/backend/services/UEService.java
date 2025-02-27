@@ -16,7 +16,7 @@ public class UEService {
         return ueRepository.findAll();
     }
 
-    public Optional<UE> getUEById(String id) {  // Utilisation de String pour l'ID
+    public Optional<UE> getUEById(String id) {
         return ueRepository.findById(id);
     }
 
@@ -24,7 +24,7 @@ public class UEService {
         return ueRepository.save(ue);
     }
 
-    public void deleteUE(String id) {  // Utilisation de String pour l'ID
+    public void deleteUE(String id) {
         ueRepository.deleteById(id);
     }
 }

@@ -16,15 +16,19 @@ public class SignatureService {
         return signatureRepository.findAll();
     }
 
-    public Optional<Signature> getSignatureById(String id) {  // Utilisation de String pour l'ID
+    public Optional<Signature> getSignatureById(String id) {
         return signatureRepository.findById(id);
+    }
+
+    public List<Signature> getSignaturesByUserId(String userId) {
+        return signatureRepository.findByUserId(userId);
     }
 
     public Signature saveSignature(Signature signature) {
         return signatureRepository.save(signature);
     }
 
-    public void deleteSignature(String id) {  // Utilisation de String pour l'ID
+    public void deleteSignature(String id) {
         signatureRepository.deleteById(id);
     }
 }

@@ -25,38 +25,40 @@ public class UEController {
         List<UE> ues = ueService.getAllUEs();
         return ues.stream()
                 .map(ue -> new UEDTO(ue.getId(), ue.getTitre(),
-                        ue.getEnseignantId(),  // Récupération de l'ID de l'enseignant
-                        ue.getClasseId()))  // Récupération de l'ID de la classe
+                        ue.getEnseignantId(),
+                        ue.getClasseId(),
+                        ue.getCodeUE()))  // Ajout du champ CodeUE
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UEDTO> getUEById(@PathVariable String id) {  // Utilisation de String pour l'ID
+    public ResponseEntity<UEDTO> getUEById(@PathVariable String id) {
         Optional<UE> ue = ueService.getUEById(id);
         return ue.map(u -> ResponseEntity.ok(new UEDTO(u.getId(), u.getTitre(),
-                        u.getEnseignantId(),  // Récupération de l'ID de l'enseignant
-                        u.getClasseId())))  // Récupération de l'ID de la classe
+                        u.getEnseignantId(),
+                        u.getClasseId(),
+                        u.getCodeUE())))  // Ajout du champ CodeUE
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<UEDTO> createUE(@RequestBody @Valid UEDTO ueDTO) {
-        // Conversion du DTO en entité UE avant de sauvegarder
         UE ue = new UE();
         ue.setTitre(ueDTO.getTitre());
-        ue.setEnseignantId(ueDTO.getEnseignantId());  // Assignation de l'ID de l'enseignant
-        ue.setClasseId(ueDTO.getClasseId());  // Assignation de l'ID de la classe
+        ue.setEnseignantId(ueDTO.getEnseignantId());
+        ue.setClasseId(ueDTO.getClasseId());
+        ue.setCodeUE(ueDTO.getCodeUE());  // Ajout du champ CodeUE
 
-        // Sauvegarde et retour du DTO créé
         UE savedUE = ueService.saveUE(ue);
 
         return ResponseEntity.ok(new UEDTO(savedUE.getId(), savedUE.getTitre(),
-                savedUE.getEnseignantId(),  // Retour de l'ID de l'enseignant
-                savedUE.getClasseId()));  // Retour de l'ID de la classe
+                savedUE.getEnseignantId(),
+                savedUE.getClasseId(),
+                savedUE.getCodeUE()));  // Ajout du champ CodeUE
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUE(@PathVariable String id) {  // Utilisation de String pour l'ID
+    public ResponseEntity<Void> deleteUE(@PathVariable String id) {
         ueService.deleteUE(id);
         return ResponseEntity.noContent().build();
     }

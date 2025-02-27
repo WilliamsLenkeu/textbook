@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/signatures")
 @RequiredArgsConstructor
-@Validated  // Permet d'utiliser les validations annotées sur les entrées
+@Validated
 public class SignatureController {
     private final SignatureService signatureService;
 
@@ -24,30 +24,37 @@ public class SignatureController {
     public List<SignatureDTO> getAllSignatures() {
         List<Signature> signatures = signatureService.getAllSignatures();
         return signatures.stream()
-                .map(s -> new SignatureDTO(s.getId(), s.getCodeSignature()))
+                .map(s -> new SignatureDTO(s.getId(), s.getCodeSignature(), s.getUserId()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SignatureDTO> getSignatureById(@PathVariable String id) {  // Utilisation de String pour l'ID
+    public ResponseEntity<SignatureDTO> getSignatureById(@PathVariable String id) {
         Optional<Signature> signature = signatureService.getSignatureById(id);
-        return signature.map(s -> ResponseEntity.ok(new SignatureDTO(s.getId(), s.getCodeSignature())))
+        return signature.map(s -> ResponseEntity.ok(new SignatureDTO(s.getId(), s.getCodeSignature(), s.getUserId())))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<SignatureDTO> createSignature(@RequestBody @Valid SignatureDTO signatureDTO) {
-        // Conversion du DTO en entité Signature avant de sauvegarder
         Signature signature = new Signature();
         signature.setCodeSignature(signatureDTO.getCodeSignature());
+        signature.setUserId(signatureDTO.getUserId());  // Ajout du userId
 
-        // Sauvegarde et retour du DTO créé
         Signature savedSignature = signatureService.saveSignature(signature);
-        return ResponseEntity.ok(new SignatureDTO(savedSignature.getId(), savedSignature.getCodeSignature()));
+        return ResponseEntity.ok(new SignatureDTO(savedSignature.getId(), savedSignature.getCodeSignature(), savedSignature.getUserId()));
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<SignatureDTO> getSignaturesByUserId(@PathVariable String userId) {
+        List<Signature> signatures = signatureService.getSignaturesByUserId(userId);
+        return signatures.stream()
+                .map(s -> new SignatureDTO(s.getId(), s.getCodeSignature(), s.getUserId()))
+                .collect(Collectors.toList());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSignature(@PathVariable String id) {  // Utilisation de String pour l'ID
+    public ResponseEntity<Void> deleteSignature(@PathVariable String id) {
         signatureService.deleteSignature(id);
         return ResponseEntity.noContent().build();
     }

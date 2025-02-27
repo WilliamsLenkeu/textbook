@@ -12,9 +12,12 @@ import jakarta.validation.constraints.*;
 @AllArgsConstructor
 public class Signature {
     @Id
-    private String id;  // Utilisation de String pour l'ID
+    private String id;
 
     @NotNull(message = "Le code de signature est obligatoire")
     @Size(min = 5, max = 100, message = "Le code de signature doit avoir entre 5 et 100 caractères")
     private String codeSignature;
+
+    @NotNull(message = "L'ID de l'utilisateur est obligatoire")
+    private String userId;  // Ajout du champ userId
 }

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignatureDTO {
-    private String id;  // Utilisation de String pour l'ID
-
+    private String id;
     private String codeSignature;
+    private String userId;  // Ajout du champ userId
 }

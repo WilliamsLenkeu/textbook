@@ -1,22 +1,28 @@
-package com.cahier.backend.entities;
+package com.cahier.backend.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
-@Document(collection = "cours")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cours {
-    @Id
+@Builder
+public class TextBookDTO {
     private String id;  // Utilisation de String pour l'ID
 
-    @NotNull(message = "La date du cours est obligatoire")
+    @NotNull(message = "Le titre du manuel est obligatoire")
+    private String title;
+
+    private List<String> subtitles;  // Liste de sous-titres (optionnels)
+
+    @NotNull(message = "La date du manuel est obligatoire")
+    @PastOrPresent(message = "La date ne peut pas être dans le futur")
     private LocalDate date;
 
     @NotNull(message = "L'heure de début est obligatoire")
@@ -36,4 +42,8 @@ public class Cours {
 
     @NotNull(message = "La classe est obligatoire")
     private String classeId;
+
+    public boolean isValid() {
+        return heureDebut.isBefore(heureFin);
+    }
 }

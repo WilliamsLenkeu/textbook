@@ -21,4 +21,7 @@ public class UE {
     private String enseignantId;  // Utilisation de String pour l'ID de l'enseignant
 
     private String classeId;  // Utilisation de String pour l'ID de la classe
+
+    @Pattern(regexp = "ICT\\d{3}", message = "Le codeUE doit être au format 'ICTXXX' avec X un chiffre entre 0 et 9")
+    private String codeUE;
 }

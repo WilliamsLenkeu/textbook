@@ -40,9 +40,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable()) // Désactive CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Autorise les routes d'authentification
-                        .requestMatchers("/test/**").permitAll() // Autorise les routes de test
-                        .anyRequest().authenticated() // Toute autre requête doit être authentifiée
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/test/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Désactive les sessions
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Ajout du filtre JWT
