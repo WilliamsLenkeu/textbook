@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class TextBook {
     @Id
-    private String id;  // Utilisation de String pour l'ID
+    private String id;
 
     @NotNull(message = "Le titre du manuel est obligatoire")
     @Size(min = 3, max = 100, message = "Le titre doit avoir entre 3 et 100 caractères")
     private String title;
 
-    private List<String> subtitles;  // Liste de sous-titres (optionnels)
+    private List<String> subtitles;
 
     @NotNull(message = "La date du manuel est obligatoire")
     private LocalDate date;
@@ -43,4 +44,8 @@ public class TextBook {
 
     @NotNull(message = "La classe est obligatoire")
     private String classeId;
+
+    @NotNull(message = "Les signatures sont obligatoires et doivent être deux")
+    @Size(min = 2, max = 2, message = "Il doit y avoir exactement deux signatures")
+    private List<String> signatures;
 }

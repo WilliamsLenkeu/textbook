@@ -30,7 +30,8 @@ public class TextBookController {
                 textBook.getUeId(),
                 textBook.getEnseignantId(),
                 textBook.getDelegueId(),
-                textBook.getClasseId()
+                textBook.getClasseId(),
+                textBook.getSignatures()
         )).collect(Collectors.toList());
     }
 
@@ -47,12 +48,17 @@ public class TextBookController {
                 tb.getUeId(),
                 tb.getEnseignantId(),
                 tb.getDelegueId(),
-                tb.getClasseId()
+                tb.getClasseId(),
+                tb.getSignatures()
         ))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<TextBookDTO> createTextBook(@RequestBody TextBookDTO textBookDTO) {
+        if (textBookDTO.getSignatures() == null || textBookDTO.getSignatures().size() != 2) {
+            return ResponseEntity.badRequest().build();
+        }
+
         TextBook textBook = new TextBook();
         textBook.setTitle(textBookDTO.getTitle());
         textBook.setSubtitles(textBookDTO.getSubtitles());
@@ -63,6 +69,7 @@ public class TextBookController {
         textBook.setEnseignantId(textBookDTO.getEnseignantId());
         textBook.setDelegueId(textBookDTO.getDelegueId());
         textBook.setClasseId(textBookDTO.getClasseId());
+        textBook.setSignatures(textBookDTO.getSignatures());
 
         TextBook savedTextBook = textBookService.saveTextBook(textBook);
 
@@ -76,13 +83,8 @@ public class TextBookController {
                 savedTextBook.getUeId(),
                 savedTextBook.getEnseignantId(),
                 savedTextBook.getDelegueId(),
-                savedTextBook.getClasseId()
+                savedTextBook.getClasseId(),
+                savedTextBook.getSignatures()
         ));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTextBook(@PathVariable String id) {
-        textBookService.deleteTextBook(id);
-        return ResponseEntity.noContent().build();
     }
 }

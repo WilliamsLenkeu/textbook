@@ -2,6 +2,7 @@ package com.cahier.backend.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,12 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class TextBookDTO {
-    private String id;  // Utilisation de String pour l'ID
+    private String id;
 
     @NotNull(message = "Le titre du manuel est obligatoire")
     private String title;
 
-    private List<String> subtitles;  // Liste de sous-titres (optionnels)
+    private List<String> subtitles;
 
     @NotNull(message = "La date du manuel est obligatoire")
     @PastOrPresent(message = "La date ne peut pas être dans le futur")
@@ -43,7 +44,7 @@ public class TextBookDTO {
     @NotNull(message = "La classe est obligatoire")
     private String classeId;
 
-    public boolean isValid() {
-        return heureDebut.isBefore(heureFin);
-    }
+    @NotNull(message = "Les signatures sont obligatoires et doivent être deux")
+    @Size(min = 2, max = 2, message = "Il doit y avoir exactement deux signatures")
+    private List<String> signatures;
 }
