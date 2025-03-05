@@ -8,7 +8,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/test")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TestController {
 
     @GetMapping("/ping")

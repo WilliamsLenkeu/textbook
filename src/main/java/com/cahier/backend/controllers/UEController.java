@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/ues")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Validated  // Permet d'utiliser les validations annotées sur les entrées
 public class UEController {
     private final UEService ueService;
