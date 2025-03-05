@@ -39,19 +39,20 @@ public class AuthService {
             throw new DataIntegrityViolationException("Ce numéro de téléphone est déjà utilisé.");
         }
 
-        // Créer la signature
-        String codeSignature = generateSignature(user);
+        // Enregistrer l'utilisateur avant de créer la signature
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);  // Enregistrer l'utilisateur et obtenir l'ID
+
+        // Créer la signature avec l'ID de l'utilisateur
+        String codeSignature = generateSignature(savedUser);
         Signature signature = new Signature();
         signature.setCodeSignature(codeSignature);
-        signature.setUserId(user.getId());  // Assurez-vous que l'ID de l'utilisateur est défini
+        signature.setUserId(savedUser.getId());  // Utiliser l'ID de l'utilisateur enregistré
 
         // Enregistrer la signature dans la base de données
         signatureService.saveSignature(signature);
 
-        // Encoder le mot de passe avant l'enregistrement
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        return userRepository.save(user);
+        return savedUser;  // Retourner l'utilisateur enregistré
     }
 
     private String generateSignature(User user) {
