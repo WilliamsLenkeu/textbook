@@ -1,7 +1,9 @@
 package com.cahier.backend.controllers;
 
 import com.cahier.backend.entities.User;
+import com.cahier.backend.entities.Signature;
 import com.cahier.backend.services.AuthService;
+import com.cahier.backend.services.SignatureService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final SignatureService signatureService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
@@ -28,8 +31,14 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody User user) {
         try {
+            // Enregistrer l'utilisateur et générer la signature
             User registeredUser = authService.register(user);
-            return ResponseEntity.ok(registeredUser);
+            
+            // Récupérer la signature liée à l'utilisateur
+            Signature signature = signatureService.getSignaturesByUserId(registeredUser.getId()).get(0);  // Assurez-vous qu'une signature existe pour l'utilisateur
+            
+            // Retourner l'utilisateur et la signature
+            return ResponseEntity.ok(new RegistrationResponse(registeredUser, signature.getCodeSignature()));
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Erreur : L'email ou le numéro de téléphone est déjà utilisé.");
         } catch (Exception e) {
@@ -56,6 +65,33 @@ public class AuthController {
 
         public void setPassword(String password) {
             this.password = password;
+        }
+    }
+
+    public static class RegistrationResponse {
+        private User user;
+        private String signature;
+
+        public RegistrationResponse(User user, String signature) {
+            this.user = user;
+            this.signature = signature;
+        }
+
+        // Getters et Setters
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public String getSignature() {
+            return signature;
+        }
+
+        public void setSignature(String signature) {
+            this.signature = signature;
         }
     }
 }
