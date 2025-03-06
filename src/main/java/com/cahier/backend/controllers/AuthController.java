@@ -1,5 +1,6 @@
 package com.cahier.backend.controllers;
 
+import com.cahier.backend.dtos.AuthResponse;
 import com.cahier.backend.entities.User;
 import com.cahier.backend.entities.Signature;
 import com.cahier.backend.services.AuthService;
@@ -21,8 +22,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            String token = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok(token);
+            AuthResponse authResponse = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(authResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erreur lors de l'authentification : " + e.getMessage());
         }
@@ -33,10 +34,10 @@ public class AuthController {
         try {
             // Enregistrer l'utilisateur et générer la signature
             User registeredUser = authService.register(user);
-            
+
             // Récupérer la signature liée à l'utilisateur
             Signature signature = signatureService.getSignaturesByUserId(registeredUser.getId()).get(0);  // Assurez-vous qu'une signature existe pour l'utilisateur
-            
+
             // Retourner l'utilisateur et la signature
             return ResponseEntity.ok(new RegistrationResponse(registeredUser, signature.getCodeSignature()));
         } catch (DataIntegrityViolationException e) {
