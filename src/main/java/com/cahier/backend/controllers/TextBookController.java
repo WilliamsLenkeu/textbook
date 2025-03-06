@@ -2,6 +2,7 @@ package com.cahier.backend.controllers;
 
 import com.cahier.backend.dtos.TextBookDTO;
 import com.cahier.backend.entities.TextBook;
+import com.cahier.backend.entities.TextBookStatus;
 import com.cahier.backend.services.TextBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,8 @@ public class TextBookController {
                 textBook.getEnseignantId(),
                 textBook.getDelegueId(),
                 textBook.getClasseId(),
-                textBook.getSignatures()
+                textBook.getSignatures(),
+                textBook.getStatus()
         )).collect(Collectors.toList());
     }
 
@@ -49,7 +51,8 @@ public class TextBookController {
                 tb.getEnseignantId(),
                 tb.getDelegueId(),
                 tb.getClasseId(),
-                tb.getSignatures()
+                tb.getSignatures(),
+                tb.getStatus()
         ))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -70,6 +73,7 @@ public class TextBookController {
         textBook.setDelegueId(textBookDTO.getDelegueId());
         textBook.setClasseId(textBookDTO.getClasseId());
         textBook.setSignatures(textBookDTO.getSignatures());
+        textBook.setStatus(textBookDTO.getStatus() != null ? textBookDTO.getStatus() : TextBookStatus.EN_ATTENTE);
 
         TextBook savedTextBook = textBookService.saveTextBook(textBook);
 
@@ -84,7 +88,8 @@ public class TextBookController {
                 savedTextBook.getEnseignantId(),
                 savedTextBook.getDelegueId(),
                 savedTextBook.getClasseId(),
-                savedTextBook.getSignatures()
+                savedTextBook.getSignatures(),
+                savedTextBook.getStatus()
         ));
     }
 }

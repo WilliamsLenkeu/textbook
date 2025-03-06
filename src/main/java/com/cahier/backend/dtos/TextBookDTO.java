@@ -1,5 +1,6 @@
 package com.cahier.backend.dtos;
 
+import com.cahier.backend.entities.TextBookStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -47,4 +48,6 @@ public class TextBookDTO {
     @NotNull(message = "Les signatures sont obligatoires et doivent être deux")
     @Size(min = 2, max = 2, message = "Il doit y avoir exactement deux signatures")
     private List<String> signatures;
+
+    private TextBookStatus status;
 }

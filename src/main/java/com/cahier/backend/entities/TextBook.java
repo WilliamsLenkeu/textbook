@@ -48,4 +48,6 @@ public class TextBook {
     @NotNull(message = "Les signatures sont obligatoires et doivent être deux")
     @Size(min = 2, max = 2, message = "Il doit y avoir exactement deux signatures")
     private List<String> signatures;
+
+    private TextBookStatus status = TextBookStatus.EN_ATTENTE;
 }
