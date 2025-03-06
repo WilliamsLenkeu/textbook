@@ -1,5 +1,6 @@
 package com.cahier.backend.services;
 
+import com.cahier.backend.dtos.AuthResponse;
 import com.cahier.backend.entities.User;
 import com.cahier.backend.repositories.UserRepository;
 import com.cahier.backend.config.JwtUtil;
@@ -25,10 +26,19 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
     private final SignatureService signatureService;
 
-    public String authenticate(String email, String password) {
+    public AuthResponse authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        UserDetails user = userDetailsService.loadUserByUsername(email);
-        return jwtUtil.generateToken(user.getUsername());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+        // Récupérer l'utilisateur en base de données
+        User user = userRepository.findByMail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        // Générer le token
+        String token = jwtUtil.generateToken(userDetails.getUsername());
+
+        // Retourner à la fois le token et les infos de l'utilisateur
+        return new AuthResponse(token, user);
     }
 
     public User register(User user) {
