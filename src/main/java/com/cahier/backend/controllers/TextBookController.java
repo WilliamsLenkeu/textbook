@@ -58,9 +58,6 @@ public class TextBookController {
 
     @PostMapping
     public ResponseEntity<TextBookDTO> createTextBook(@RequestBody TextBookDTO textBookDTO) {
-        if (textBookDTO.getSignatures() == null || textBookDTO.getSignatures().size() != 2) {
-            return ResponseEntity.badRequest().build();
-        }
 
         TextBook textBook = new TextBook();
         textBook.setTitle(textBookDTO.getTitle());
