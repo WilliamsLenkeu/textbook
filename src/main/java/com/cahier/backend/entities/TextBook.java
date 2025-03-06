@@ -27,7 +27,7 @@ public class TextBook {
     @NotNull(message = "La date du manuel est obligatoire")
     private LocalDate date;
 
-    @NotNull(message = "L'heure de début est obligatoire")
+    @NotNull(message = "L'heure de début est obaligatoire")
     private LocalTime heureDebut;
 
     @NotNull(message = "L'heure de fin est obligatoire")
@@ -45,8 +45,6 @@ public class TextBook {
     @NotNull(message = "La classe est obligatoire")
     private String classeId;
 
-    @NotNull(message = "Les signatures sont obligatoires et doivent être deux")
-    @Size(min = 2, max = 2, message = "Il doit y avoir exactement deux signatures")
     private List<String> signatures;
 
     private TextBookStatus status = TextBookStatus.EN_ATTENTE;
