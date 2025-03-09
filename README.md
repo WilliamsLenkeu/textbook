@@ -16,14 +16,7 @@ Ce projet est une application avec un backend développée avec **Spring Boot**.
    ```sql
    CREATE DATABASE cahier_bd;
    ```
-3. **Ce placer dans le dossier du backend**
-   Utilisez la commande suivante pour vous y placez :
-   
-   ```sh
-   cd backend
-   ```
-
-4. **Lancer le backend**
+3. **Lancer le backend**
    Utilisez la commande suivante pour démarrer l'application :
    
    ```sh
@@ -35,3 +28,5 @@ Ce projet est une application avec un backend développée avec **Spring Boot**.
 - **Java 17+**
 - **Maven** (inclus via `mvnw`)
 - **MySQL ou PostgreSQL** (selon votre configuration)
+
+Vous pouvez aussi utiliser l'api hébergé du backend avec le lien ``` https://textbookback.up.railway.app ```
